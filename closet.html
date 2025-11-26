@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>드레스업 화면</title>
+
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:100vw;
+    height:100vh;
+    overflow:hidden;
+    background:#fff;
+    position:relative;
+    user-select:none;
+  }
+
+  /* =========================
+     🔵 로딩 화면
+  ========================== */
+  #loadingScreen {
+    position:fixed;
+    width:100%;
+    height:100%;
+    top:0; left:0;
+    background:url('closet back.png') no-repeat center/cover;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    z-index:999;
+  }
+
+  #loadingText {
+    width:350px;
+    margin-bottom:40px;
+  }
+
+  #loadingBarWrap {
+    width:30%;
+    height:25px;
+    background:rgba(255,255,255,0.6);
+    border-radius:20px;
+    overflow:hidden;
+  }
+
+  #loadingBar {
+    width:0%;
+    height:100%;
+    background:#FF00BB;
+    border-radius:20px;
+    animation:fillBar 4s forwards ease-in-out;
+  }
+
+  @keyframes fillBar {
+    0% { width:0%; }
+    100% { width:100%; }
+  }
+
+  /* =========================
+     🌸 드레스업 화면
+  ========================== */
+
+  #dressupScreen {
+    display:none;
+    position:relative;
+    width:100%;
+    height:100%;
+  }
+
+  #roomBg {
+    position:absolute;
+    width:100%;
+    height:100%;
+    top:0; left:0;
+    object-fit:cover;
+    z-index:1;
+  }
+
+  /* ⭐ 옷장 + 슬롯을 함께 담는 부모 */
+  #closetWrapper {
+    position:absolute;
+    bottom:0%;
+    left:66%;
+    width:46%;
+    transform:translateX(-50%);
+    z-index:5;
+    pointer-events:none;
+  }
+
+  /* 옷장 이미지 */
+  #closetImg {
+    width:100%;
+    height:auto;
+    display:block;
+    pointer-events:none;
+  }
+
+  /* 플레이어 */
+  #playerBase {
+    position:absolute;
+    left:22%;
+    bottom:0%;
+    width:201px;
+    transform:translateX(-50%);
+    z-index:10;
+  }
+
+  /* 착용 가발 */
+  #wearWig {
+    position: absolute;
+    left: 22%;           /* playerBase와 동일 */
+    transform: translateX(-50%);
+    height: 335px;
+    width: auto;
+    top: -1%;             /* 또는 bottom: XXpx */
+    z-index: 20;
+    pointer-events: none;
+  }
+
+  /* =========================
+     🎀 가발 슬롯 UI
+     (이제 closetWrapper 기준으로 고정됨)
+  ========================== */
+
+  #wigSlot {
+    position:absolute;
+    width:100%;
+    height:180px;
+    top:19%;
+    left:50.5%;
+    transform:translateX(-50%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    pointer-events:auto;
+    z-index:50;
+  }
+
+  .arrowBtn {
+    width:40px;
+    height:40px;
+    font-size:30px;
+    background:transparent;
+    border:none;
+    cursor:pointer;
+    color:#F70093;
+    z-index:100;
+    pointer-events:auto;
+  }
+
+  .wigListWrapper {
+    width:560px;
+    height:150px;
+    overflow:hidden;
+    position:relative;
+    margin:0 10px;
+    pointer-events:auto;
+  }
+
+  .wigList {
+    position:absolute;
+    display:flex;
+    gap:7px;
+    left:0px;
+    transition:0.3s ease;
+    list-style:none;
+  }
+
+  .wigItem {
+    width:130px;
+    height:130px;
+    position:relative;
+    pointer-events:auto;
+  }
+
+  .wigSlotBg {
+    position:absolute;
+    width:130px;
+    height:130px;
+    top:0;
+    left:0;
+    z-index:1;
+    pointer-events:none;
+  }
+
+  .wigImg {
+    position:absolute;
+    width:120px;
+    height:120px;
+    top:5px;
+    left:5px;
+    cursor:pointer;
+    z-index:5;
+    pointer-events:auto;
+  }
+
+</style>
+</head>
+
+<body>
+
+<!-- 🔵 로딩 화면 -->
+<div id="loadingScreen">
+  <img id="loadingText" src="Loading....png">
+  <div id="loadingBarWrap"><div id="loadingBar"></div></div>
+</div>
+
+<!-- 🌸 드레스업 메인 -->
+<div id="dressupScreen">
+
+  <img id="roomBg" src="Frame 2087327010.png">
+
+  <!-- ⭐ 옷장 전체 구조 -->
+  <div id="closetWrapper">
+    <img id="closetImg" src="Group 2085666421.png">
+
+    <!-- 🎀 가발 슬롯 -->
+    <div id="wigSlot">
+        <button id="leftArrow" class="arrowBtn">◀</button>
+
+        <div class="wigListWrapper">
+          <ul class="wigList" id="wigList">
+
+            <li class="wigItem">
+              <img class="wigSlotBg" src="Group2085666388.png">
+              <img class="wigImg" src="basic hair.png">
+            </li>
+
+            <li class="wigItem">
+              <img class="wigSlotBg" src="Group2085666388.png">
+              <img class="wigImg" src="gold ponytail.png">
+            </li>
+
+            <li class="wigItem">
+              <img class="wigSlotBg" src="Group2085666388.png">
+              <img class="wigImg" src="pink hair 2.png">
+            </li>
+
+            <li class="wigItem">
+              <img class="wigSlotBg" src="Group2085666388.png">
+              <img class="wigImg" src="hairbun.png">
+            </li>
+
+            <li class="wigItem">
+              <img class="wigSlotBg" src="Group2085666388.png">
+              <img class="wigImg" src="long hair.png">
+            </li>
+
+            <li class="wigItem">
+              <img class="wigSlotBg" src="Group2085666388.png">
+              <img class="wigImg" src="red hair.png">
+            </li>
+
+          </ul>
+        </div>
+
+        <button id="rightArrow" class="arrowBtn">▶</button>
+    </div>
+  </div>
+
+  <img id="playerBase" src="Group 2085666411.png">
+  <img id="wearWig">
+
+</div>
+
+
+<script>
+/* 🔵 로딩 → 메인 전환 */
+setTimeout(() => {
+  document.getElementById("loadingScreen").style.display = "none";
+  document.getElementById("dressupScreen").style.display = "block";
+}, 1000);
+
+
+/* 🎀 드래그해서 캐릭터에게 가져가면 착용 */
+
+const wearWig = document.getElementById("wearWig");
+const playerBase = document.getElementById("playerBase");
+
+let dragImg = null;
+let dragSrc = "";
+let offsetX = 0;
+let offsetY = 0;
+
+/* 드래그 시작 */
+document.querySelectorAll(".wigImg").forEach(img => {
+  img.addEventListener("mousedown", (e) => {
+    e.preventDefault();
+
+    dragSrc = img.src;
+
+    const rect = img.getBoundingClientRect();
+    offsetX = e.clientX - rect.left;
+    offsetY = e.clientY - rect.top;
+
+    dragImg = img.cloneNode(true);
+    dragImg.style.position = "absolute";
+    dragImg.style.pointerEvents = "none";
+    dragImg.style.zIndex = 999;
+    dragImg.style.left = rect.left + "px";
+    dragImg.style.top = rect.top + "px";
+
+    document.body.appendChild(dragImg);
+  });
+});
+
+/* 드래그 중 */
+document.addEventListener("mousemove", (e) => {
+  if (!dragImg) return;
+
+  dragImg.style.left = (e.clientX - offsetX) + "px";
+  dragImg.style.top  = (e.clientY - offsetY) + "px";
+});
+
+/* 드롭 */
+document.addEventListener("mouseup", (e) => {
+  if (!dragImg) return;
+
+  const playerRect = playerBase.getBoundingClientRect();
+  const inside =
+    e.clientX > playerRect.left &&
+    e.clientX < playerRect.right &&
+    e.clientY > playerRect.top &&
+    e.clientY < playerRect.bottom;
+
+  if (inside) wearWig.src = dragSrc;
+
+  dragImg.remove();
+  dragImg = null;
+  dragSrc = "";
+});
+
+
+/* 🎀 가로 스크롤 */
+let currentIndex = 0;
+const wigList = document.getElementById("wigList");
+
+document.getElementById("leftArrow").onclick = () => {
+  if (currentIndex > 0) {
+    currentIndex--;
+    updateScroll();
+  }
+};
+
+document.getElementById("rightArrow").onclick = () => {
+  if (currentIndex < 2) {
+    currentIndex++;
+    updateScroll();
+  }
+};
+
+function updateScroll() {
+  const moveX = currentIndex * -125;
+  wigList.style.left = moveX + "px";
+}
+</script>
+
+</body>
+</html>
